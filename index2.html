@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Smart Nutrition — Sprint 3 E-Book (Canva-style)</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Lora:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ====== BASE ====== */
+    :root{
+      --bg:#FAFBFA;
+      --page-bg: #fff;
+      --soft: #EDF7F3;
+      --accent: #2E8F9A;
+      --accent-2: #F39C9C;
+      --muted:#6B7280;
+      --shadow: 0 10px 30px rgba(18, 52, 61, 0.08);
+      --radius: 14px;
+      --page-w: 900px;
+    }
+
+    html,body { height:100%; margin:0; background: linear-gradient(180deg,#f4f7f6 0%, #eef7f9 100%); font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:#172022; -webkit-font-smoothing:antialiased;}
+    .wrap { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:48px 24px; }
+
+    /* ====== BOOK FRAME / PAGE ====== */
+    .book {
+      width: calc(var(--page-w) + 40px);
+      max-width: calc(100% - 48px);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      align-items:start;
+    }
+
+    .page {
+      width: var(--page-w);
+      max-width: 100%;
+      margin: 0 auto;
+      background: var(--page-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 48px 64px;
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+      min-height: 640px;
+    }
+
+    /* decorative left margin like a book spine */
+    .page::before{
+      content: "";
+      position:absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 34px;
+      background: linear-gradient(90deg, rgba(46,143,154,0.06), rgba(46,143,154,0.02));
+      border-top-left-radius: var(--radius);
+      border-bottom-left-radius: var(--radius);
+    }
+
+    header.book-header {
+      display:flex; align-items:center; gap:18px; margin-bottom: 14px;
+    }
+    .logo {
+      width:64px; height:64px; border-radius:12px; background:linear-gradient(135deg,var(--accent), #5fb6b0); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-family:Lora; box-shadow: 0 6px 18px rgba(46,143,154,0.12);
+      font-size:22px;
+    }
+    .meta { font-family: Lora, serif; }
+    .meta h1 { margin:0; font-size:22px; color:#103238; letter-spacing:0.2px; }
+    .meta p { margin:2px 0 0; color:var(--muted); font-size:13px; }
+
+    /* ====== TYPOGRAPHY ====== */
+    h2 { font-family: Lora, serif; color:#123A3A; font-size:26px; margin:12px 0 8px; }
+    h3 { font-family: Lora, serif; color:#1f5252; margin: 6px 0 10px; font-size:18px; }
+    p { margin: 10px 0; font-size:15px; color:#243434; line-height:1.7; }
+    .dropcap:first-letter { float:left; font-family: Lora, serif; font-size:54px; line-height:0.7; margin-right:10px; color:var(--accent); font-weight:700; }
+
+    .caption { font-size:13px; color:var(--muted); margin-top:8px; text-align:center; }
+
+    /* ====== IMAGES & CARDS ====== */
+    .hero {
+      width:100%; height:260px; border-radius:12px; overflow:hidden; margin:18px 0; box-shadow: 0 10px 30px rgba(15,40,40,0.06);
+      background-position:center; background-size:cover; background-repeat:no-repeat;
+    }
+
+    .row { display:flex; gap:20px; align-items:flex-start; }
+    .col { flex:1; min-width:0; }
+
+    .card {
+      background: linear-gradient(180deg, #ffffff, #fafafa);
+      border-radius:12px; padding:18px; box-shadow: 0 6px 18px rgba(8,30,30,0.04); border:1px solid rgba(10,30,30,0.03);
+    }
+
+    .tip {
+      border-left:4px solid var(--accent); background:#F2FBFA; padding:12px 16px; border-radius:8px; color:#0f3b3b;
+      margin:14px 0;
+    }
+
+    .badge { display:inline-block; padding:6px 10px; border-radius:999px; background:var(--soft); color:var(--accent); font-weight:600; font-size:12px; }
+
+    /* ====== TABLES (Meal plan) ====== */
+    table.mealplan { width:100%; border-collapse:collapse; margin-top:12px; font-size:14px; }
+    table.mealplan th, table.mealplan td { padding:12px 10px; border-bottom:1px solid #eef3f2; text-align:left; }
+    table.mealplan th { background: linear-gradient(90deg,var(--accent), #6fb7b0); color:#fff; font-weight:600; }
+    table.mealplan tr:nth-child(even) td { background: #fbfefc; }
+
+    /* ====== RECIPES ====== */
+    .recipe { display:flex; gap:18px; align-items:flex-start; margin-bottom:20px; }
+    .recipe img { width:160px; height:110px; object-fit:cover; border-radius:10px; }
+
+    /* ====== FOOTER / PAGE NUMBER ====== */
+    .page-footer { position:absolute; left:64px; right:64px; bottom:20px; display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--muted); }
+    .page-number { background: linear-gradient(180deg,#ffffff,#f7faf9); padding:6px 12px; border-radius:999px; box-shadow: 0 4px 10px rgba(15,40,40,0.03); }
+
+    /* ====== NAV CONTROLS (form-style) ====== */
+    .controls { display:flex; gap:12px; justify-content:center; margin-top:18px; }
+    .btn {
+      display:inline-flex; align-items:center; gap:10px;
+      background:transparent; border:1px solid rgba(16,58,58,0.12); padding:10px 16px; border-radius:10px; cursor:pointer; font-weight:600; color:#123A3A;
+      transition: all .18s ease;
+    }
+    .btn:active { transform:translateY(1px); }
+    .btn.primary { background: linear-gradient(90deg,var(--accent), #57b6b0); color:white; border: none; box-shadow: 0 8px 20px rgba(46,143,154,0.12); }
+
+    /* small screens */
+    @media (max-width:980px){
+      .page { padding:28px; min-height:640px; }
+      .hero { height:180px; }
+      .recipe { flex-direction:column; align-items:flex-start; }
+      .recipe img { width:100%; height:180px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="book" role="application" aria-label="Smart Nutrition e-book">
+
+      <!-- Single-page container; we'll swap its inner content by JS to emulate flipping pages -->
+      <article id="page" class="page" aria-live="polite">
+        <!-- Initial content (Cover) — replaced by JS as user navigates -->
+        <header class="book-header">
+          <div class="logo">SN</div>
+          <div class="meta">
+            <h1>Smart Nutrition</h1>
+            <p>The Ultimate Student Guide — Fuel for Focus & Budget Meal Prep</p>
+          </div>
+        </header>
+
+        <section id="content">
+          <div class="hero" style="background-image:url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=58d75c1a3f2c0cc6e9c1fa8a6f6f9f44');"></div>
+
+          <h2 style="margin-top:6px">Cover — Smart Nutrition</h2>
+          <p class="dropcap">Students who fuel their bodies well study better, think clearer, and recover faster. This guide is built to be practical — short recipes, simple shopping lists, and small habit changes you can apply this week.</p>
+
+          <div class="card" style="margin-top:18px;">
+            <strong>Authors:</strong> Team 5 • <strong>Instructor:</strong> (Name) • <strong>Sprint:</strong> 3 — Draft
+            <div style="margin-top:10px"><span class="badge">Read time: ~17 min</span> <span class="badge" style="margin-left:8px">Pages: 10</span></div>
+          </div>
+
+        </section>
+
+        <div class="page-footer" aria-hidden="true">
+          <div class="left">Smart Nutrition — Sprint 3 Draft</div>
+          <div class="page-number">Page <span id="pageNum">1</span> / 8</div>
+        </div>
+      </article>
+
+      <!-- Navigation form (Next/Back) -->
+      <form id="navForm" style="width:100%; max-width:var(--page-w); margin:20px auto 0; display:flex; flex-direction:column; align-items:center;">
+        <input type="hidden" id="currentPage" name="currentPage" value="1" />
+        <div class="controls" role="group" aria-label="Page navigation">
+          <button type="button" class="btn" id="backBtn" aria-label="Previous page" disabled>&larr; Back</button>
+          <button type="button" class="btn primary" id="nextBtn" aria-label="Next page">Next &rarr;</button>
+        </div>
+
+        <!-- small page jump (optional) -->
+        <div style="margin-top:12px; color:var(--muted); font-size:13px;">
+          Page <span id="pageNow">1</span> of 8 — go to:
+          <select id="jumpSelect" aria-label="Jump to page" style="margin-left:6px; padding:6px 8px; border-radius:8px; border:1px solid #e6efee;">
+            <option value="1">Cover</option>
+            <option value="2">Introduction</option>
+            <option value="3">Survey Insights</option>
+            <option value="4">Fueling for Focus</option>
+            <option value="5">Meal Prep Blueprint</option>
+            <option value="6">7-Day Meal Plan</option>
+            <option value="7">Quick Dorm Recipes</option>
+            <option value="8">Resources & Feedback</option>
+          </select>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    // ===== Page content array (8 pages) =====
+    const pages = [
+`<!-- PAGE 1: COVER (already rendered as initial) -->
+<header class="book-header">
+  <div class="logo">SN</div>
+  <div class="meta">
+    <h1>Smart Nutrition</h1>
+    <p>The Ultimate Student Guide — Fuel for Focus & Budget Meal Prep</p>
+  </div>
+</header>
+<section>
+  <div class="hero" style="background-image:url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=58d75c1a3f2c0cc6e9c1fa8a6f6f9f44');"></div>
+  <h2>Cover — Smart Nutrition</h2>
+  <p class="dropcap">Students who fuel their bodies well study better, think clearer, and recover faster. This guide is built to be practical — short recipes, simple shopping lists, and small habit changes you can apply this week.</p>
+  <div class="card" style="margin-top:18px;">
+    <strong>Authors:</strong> Team 5 • <strong>Instructor:</strong> (Name) • <strong>Draft:</strong> Sprint 3
+    <div style="margin-top:10px"><span class="badge">Read time: ~17 min</span> <span class="badge" style="margin-left:8px">Pages: 8</span></div>
+  </div>
+</section>`,
+
+`<!-- PAGE 2: INTRODUCTION -->
+<section>
+  <h2>Introduction — Why Nutrition Matters</h2>
+  <p class="dropcap">Nutrition plays a pivotal role in cognitive performance. When the brain receives steady energy, attention span lengthens, working memory improves, and mood stabilizes — all crucial during study sessions and exams.</p>
+  <p>In our survey of university students, many reported relying on caffeine and quick snacks. Those habits produce short-lived energy spikes that often end in crashes. This e-book focuses on sustainable strategies: combining protein, healthy fats, and complex carbohydrates to support steady mental performance.</p>
+
+  <h3>What you will find in this guide</h3>
+  <ul>
+    <li>Simple, evidence-backed recommendations for daily meals and snacks.</li>
+    <li>Budget-friendly meal prep workflows and shopping lists.</li>
+    <li>Quick dorm-friendly recipes you can make without a full kitchen.</li>
+    <li>Practical tips to sustain healthy habits through exams and busy weeks.</li>
+  </ul>
+
+  <div class="tip"><strong>Quick Start Tip:</strong> Add a protein source to every breakfast (eggs, Greek yogurt, peanut butter) to reduce mid-morning crashes.</div>
+</section>`,
+
+`<!-- PAGE 3: SURVEY INSIGHTS -->
+<section>
+  <h2>Survey Insights — What Students Told Us</h2>
+  <p class="dropcap">We collected responses from a diverse sample of students. The most common barriers to healthy eating were: time constraints (62%), limited budget (47%), and lack of cooking confidence (35%).</p>
+
+  <div class="row" style="margin-top:12px;">
+    <div class="col card">
+      <h3>Top Findings</h3>
+      <ul>
+        <li><strong>75%</strong> skip a balanced breakfast at least twice per week.</li>
+        <li><strong>68%</strong> rely on fast food during busy weeks.</li>
+        <li><strong>59%</strong> would try meal prep if they had simple recipes.</li>
+      </ul>
+    </div>
+    <div class="col card">
+      <h3>Confidence</h3>
+      <p>Only 1 in 4 students feel confident reading nutrition labels and planning meals. This book includes label-reading tips and a simple 1-hour weekend prep to get started.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:16px; text-align:center;">
+    <!-- infographic placeholder -->
+    <div style="height:140px; border-radius:10px; background:linear-gradient(90deg,#F0FCFB,#FCF7F7); display:flex; align-items:center; justify-content:center; color:#234; box-shadow:0 8px 20px rgba(10,30,30,0.04);">
+      [Infographic placeholder — Survey summary & simple chart]
+    </div>
+    <p class="caption">Survey of 50 students — high-level insights summarized above.</p>
+  </div>
+</section>`,
+
+`<!-- PAGE 4: FUELING FOR FOCUS -->
+<section>
+  <h2>Fueling for Focus — Brain Food & Habits</h2>
+  <p class="dropcap">The brain is an energy-hungry organ. To keep it working well, we benefit from balanced meals that combine slow-release carbohydrates, protein, and healthy fats.</p>
+
+  <h3>Core Principles</h3>
+  <div class="row" style="margin-top:10px;">
+    <div class="col card">
+      <h4>1. Include Protein</h4>
+      <p>Protein keeps blood sugar stable. Add eggs, yogurt, beans, or lean meat to each main meal.</p>
+    </div>
+    <div class="col card">
+      <h4>2. Choose Whole Carbs</h4>
+      <p>Oats, brown rice, whole-grain bread release energy slowly and reduce crashes.</p>
+    </div>
+    <div class="col card">
+      <h4>3. Healthy Fats</h4>
+      <p>Omega-3s (salmon, flaxseed) and monounsaturated fats (avocado, nuts) support memory and concentration.</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:18px;">Practical Snack Ideas</h3>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:12px; margin-top:10px;">
+    <div class="card"><strong>Greek yogurt + berries</strong><p style="margin:8px 0 0; color:var(--muted);">Protein + antioxidants</p></div>
+    <div class="card"><strong>Apple + peanut butter</strong><p style="margin:8px 0 0; color:var(--muted);">Carbs + healthy fat</p></div>
+    <div class="card"><strong>Handful of mixed nuts</strong><p style="margin:8px 0 0; color:var(--muted);">Sustained energy</p></div>
+    <div class="card"><strong>Whole-grain toast + avocado</strong><p style="margin:8px 0 0; color:var(--muted);">Fiber + healthy fat</p></div>
+  </div>
+
+  <div class="tip" style="margin-top:14px;"><strong>Study-Session Hack:</strong> Prepare a small 'focus box' with 2 protein snacks and a water bottle to avoid leaving the room and losing study momentum.</div>
+
+  <div style="margin-top:18px;">
+    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=7b1b2d94fe1e3dc35b9d1eb0ec8d28aa" alt="brain food" style="width:100%; height:220px; object-fit:cover; border-radius:10px;">
+    <p class="caption">Combining protein, whole grains, and healthy fats reduces focus lapses.</p>
+  </div>
+</section>`,
+
+`<!-- PAGE 5: MEAL PREP BLUEPRINT -->
+<section>
+  <h2>Meal Prep Blueprint — 1-Hour Weekend Plan</h2>
+  <p class="dropcap">Meal prep doesn't need to be a full-day chore. With a focused 1-hour session, you can prepare components that combine into healthy meals all week.</p>
+
+  <h3>60-minute Step Plan</h3>
+  <div class="row" style="margin-top:12px;">
+    <div class="col card">
+      <h4>0–10 min — Plan & Shop</h4>
+      <p>Check your fridge, make a 3-recipe plan, write a short shopping list (prioritize affordable proteins & seasonal veg).</p>
+    </div>
+    <div class="col card">
+      <h4>10–30 min — Prep & Chop</h4>
+      <p>Wash and chop vegetables, pre-portion grains or lentils. Use one sheet-pan for roasted veg.</p>
+    </div>
+    <div class="col card">
+      <h4>30–50 min — Cook Proteins & Grains</h4>
+      <p>Bake chicken, cook rice/quinoa, and simmer a simple sauce. Batch-cook keeps flavors consistent all week.</p>
+    </div>
+    <div class="col card">
+      <h4>50–60 min — Portion & Label</h4>
+      <p>Assemble 3–4 grab-and-go containers with a balance of protein, carb, and veg. Label with day & reheat instructions.</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:18px;">Storage & Safety</h3>
+  <p>Store meals in airtight containers. Consume cooked meals within 3–4 days. Freeze a portion if you know you won’t finish it in time.</p>
+
+  <div class="tip"><strong>Budget tip:</strong> Frozen veggies and store-brand grains are often cheaper and just as nutritious as fresh/brand-name options.</div>
+</section>`,
+
+`<!-- PAGE 6: 7-DAY SAMPLE MEAL PLAN -->
+<section>
+  <h2>7-Day Sample Meal Plan (Budget Friendly)</h2>
+  <p class="dropcap">This sample plan balances convenience with nutrition. Adjust portion sizes to match your energy needs.</p>
+
+  <table class="mealplan" aria-label="7 day meal plan">
+    <thead>
+      <tr><th>Day</th><th>Breakfast</th><th>Lunch</th><th>Dinner</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Mon</td><td>Oats + banana + nuts</td><td>Chicken & quinoa bowl</td><td>Stir-fry veg + rice</td><td>Batch cook quinoa (serve twice)</td></tr>
+      <tr><td>Tue</td><td>Eggs + toast</td><td>Lentil soup + salad</td><td>Spaghetti + tomato & mushrooms</td><td>Leftover veg for soup</td></tr>
+      <tr><td>Wed</td><td>Greek yogurt + fruit</td><td>Tuna salad wrap</td><td>Baked salmon + potatoes</td><td>Omega-3 dinner</td></tr>
+      <tr><td>Thu</td><td>Smoothie (spinach+banana+milk)</td><td>Chickpea bowl</td><td>Chicken fajita bowl</td><td>Prep fajita veg</td></tr>
+      <tr><td>Fri</td><td>Peanut butter toast</td><td>Veggie wrap</td><td>Leftover bowl</td><td>Use up fridge items</td></tr>
+      <tr><td>Sat</td><td>Pancake + berries</td><td>Rice & beans</td><td>Homemade pizza (simple)</td><td>Treat meal</td></tr>
+      <tr><td>Sun</td><td>Omelette + salad</td><td>Leftovers / salad</td><td>Simple soup + bread</td><td>Prep for next week</td></tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top:12px;">Estimate daily calories: ~1800–2200 depending on portions. Swap protein/snack portions to match your needs.</p>
+</section>`,
+
+`<!-- PAGE 7: QUICK DORM RECIPES -->
+<section>
+  <h2>Quick Dorm Recipes — No Full Kitchen Required</h2>
+
+  <div class="recipe card">
+    <img src="https://images.unsplash.com/photo-1512058564366-c9e3a5a1a353?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=04b0a1c0b1e9f7f2a2b8f2b0b2a3c7a1" alt="overnight oats">
+    <div>
+      <h3>1) Overnight Oats (Protein Boost)</h3>
+      <p>Ingredients: 1/2 cup rolled oats, 1 cup milk (or plant milk), 1 tbsp chia seeds, 1/2 scoop protein or 3 tbsp Greek yogurt, berries.</p>
+      <p>Steps: Mix in jar, refrigerate overnight. Top with berries & nuts in the morning.</p>
+    </div>
+  </div>
+
+  <div class="recipe card">
+    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=2b6a6f0a8d4a6a4bbf3f4b0a9f1c8b7a" alt="tuna wrap">
+    <div>
+      <h3>2) Tuna & Veg Wrap</h3>
+      <p>Ingredients: canned tuna, plain yogurt or mayo, chopped cucumber & tomato, whole-wheat wrap.</p>
+      <p>Steps: Mix tuna with a spoon of yogurt, add veg, wrap, and enjoy cold or lightly warmed in a toaster oven.</p>
+    </div>
+  </div>
+
+  <div class="recipe card">
+    <img src="https://images.unsplash.com/photo-1546554137-f86b9593a222?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=9b7c5f6b2c8a3a1d4c3b2a1c8f3d5e7b" alt="stir fry">
+    <div>
+      <h3>3) One-Pan Veg & Tofu Stir</h3>
+      <p>Ingredients: firm tofu, mixed frozen veg, soy sauce, olive oil, rice or noodles.</p>
+      <p>Steps: Cube tofu, pan-fry, add veg, toss with soy sauce and serve over rice. Quick and protein-packed.</p>
+    </div>
+  </div>
+</section>`,
+
+`<!-- PAGE 8: RESOURCES & FEEDBACK (form) -->
+<section>
+  <h2>Resources, Next Steps & Feedback</h2>
+  <p class="dropcap">You now have a compact blueprint for eating smarter as a student. Start with the 1-hour meal prep plan and pick two recipes to rotate each week. Small changes — consistently applied — create lasting results.</p>
+
+  <h3>Further Reading & Tools</h3>
+  <ul>
+    <li><a href="#" target="_blank">Healthline — Nutrition Basics</a></li>
+    <li><a href="#" target="_blank">BudgetBytes — Affordable Recipes</a></li>
+    <li><a href="#" target="_blank">ChooseMyPlate.gov — Balanced meals guidance</a></li>
+  </ul>
+
+  <h3 style="margin-top:12px;">Reader Notes & Feedback</h3>
+  <form id="feedbackForm" class="card" style="margin-top:10px;">
+    <label for="name" style="font-weight:600; display:block; margin-bottom:6px;">Your name (optional)</label>
+    <input id="name" name="name" placeholder="e.g. Amina" style="width:100%; padding:10px; border-radius:8px; border:1px solid #e8f0ef; margin-bottom:10px;" />
+
+    <label for="notes" style="font-weight:600; display:block; margin-bottom:6px;">Notes for the authors</label>
+    <textarea id="notes" name="notes" rows="4" placeholder="What did you like? What should we add?" style="width:100%; padding:10px; border-radius:8px; border:1px solid #e8f0ef;"></textarea>
+
+    <div style="display:flex; gap:10px; margin-top:12px;">
+      <button type="button" id="submitFeedback" class="btn primary">Send Feedback</button>
+      <button type="button" id="downloadPdf" class="btn">Download as PDF (Print)</button>
+    </div>
+
+    <p id="feedbackMsg" style="margin-top:10px; color:var(--muted); font-size:13px;"></p>
+  </form>
+
+  <p style="margin-top:14px;">© 2025 Smart Nutrition — Team 5. Built with care. Start your one-week plan today!</p>
+</section>`
+    ];
+
+    // ===== state & DOM refs =====
+    let current = 1; // 1-based
+    const total = pages.length;
+    const pageEl = document.getElementById('page');
+    const contentEl = document.getElementById('content');
+    const currentPageInput = document.getElementById('currentPage');
+    const pageNum = document.getElementById('pageNum');
+    const pageNow = document.getElementById('pageNow');
+    const backBtn = document.getElementById('backBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const jumpSelect = document.getElementById('jumpSelect');
+
+    // initial render (already page 1)
+    function renderPage(n){
+      // safety bounds
+      if(n < 1) n = 1;
+      if(n > total) n = total;
+      current = n;
+      currentPageInput.value = current;
+      pageNum.textContent = current;
+      pageNow.textContent = current;
+      // set content
+      const inner = pages[current-1];
+      // apply fade / simple flip illusion
+      pageEl.style.opacity = 0; pageEl.style.transform = 'translateY(8px)';
+      setTimeout(()=> {
+        contentEl.innerHTML = inner;
+        pageEl.style.opacity = 1; pageEl.style.transform = 'translateY(0)';
+      }, 160);
+
+      // enable/disable buttons
+      backBtn.disabled = (current === 1);
+      nextBtn.disabled = (current === total);
+
+      if(current === total){
+        nextBtn.textContent = 'Finished';
+        nextBtn.classList.remove('primary');
+        nextBtn.style.opacity = '0.85';
+      } else {
+        nextBtn.textContent = 'Next →';
+        nextBtn.classList.add('primary');
+        nextBtn.style.opacity = '1';
+      }
+    }
+
+    // button events
+    backBtn.addEventListener('click', ()=> renderPage(current-1));
+    nextBtn.addEventListener('click', ()=> {
+      if(current < total) renderPage(current+1);
+      else {
+        // finished action: scroll to feedback or show alert
+        alert('You reached the end — thank you! Use the feedback form to send notes.');
+      }
+    });
+
+    jumpSelect.addEventListener('change', (e)=> renderPage(parseInt(e.target.value)));
+
+    // feedback submission (client-side only)
+    document.getElementById('submitFeedback').addEventListener('click', ()=> {
+      const name = document.getElementById('name').value.trim();
+      const notes = document.getElementById('notes').value.trim();
+      const msgEl = document.getElementById('feedbackMsg');
+      if(!notes){
+        msgEl.style.color = '#c53030';
+        msgEl.textContent = 'Please add notes before sending feedback.';
+        return;
+      }
+      // simulate sending
+      msgEl.style.color = '#0f5132';
+      msgEl.textContent = 'Thanks! Your feedback has been received (demo).';
+      // here you could send to a server/API using fetch()
+      document.getElementById('name').value = '';
+      document.getElementById('notes').value = '';
+    });
+
+    // "download as PDF" simply triggers print for easy saving
+    document.getElementById('downloadPdf').addEventListener('click', ()=> window.print());
+
+    // initial render (in case of injection)
+    document.addEventListener('DOMContentLoaded', ()=> renderPage(1));
+  </script>
+</body>
+</html>
